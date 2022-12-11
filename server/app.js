@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "..", "dist", "browser")));
 app.use(
   "/",
-  express.static(path.join(__dirname, "dist", "..",  "browser", "index.html"))
+  express.static(path.join(__dirname, "..", "dist",  "browser", "index.html"))
 );
 
 app.listen();
