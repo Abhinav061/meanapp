@@ -16,6 +16,9 @@ app.use(
 
 app.listen();
 
+
+            //SERVER CONFIGUE
+
 const pool = mysql.createPool({
     connectionLimit  : 10,
     host            : 'localhost',
@@ -23,6 +26,17 @@ const pool = mysql.createPool({
     password        : 'N*BLYmV2uB1[',
     database        : 'shreedu1_nodejs_db'
 })
+
+
+            //LOCAL CONFIGUE
+
+// const pool = mysql.createPool({
+//     connectionLimit  : 10,
+//     host            : 'localhost',
+//     user            : 'root',
+//     password        : '',
+//     database        : 'nodejs'
+// })
 
 
 //Get All node - API
