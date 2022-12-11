@@ -11,17 +11,16 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "..", "dist", "browser")));
 app.use(
   "/",
-  express.static(path.join(__dirname, "..", "dist",  "browser", "index.html"))
+  express.static(path.join(__dirname, "..", "dist", "browser", "index.html"))
 );
-
-app.listen();
+app.listen(port, () => console.log(`Listening on port ${port}`))
 
 const pool = mysql.createPool({
     connectionLimit  : 10,
     host            : 'localhost',
-    user            : 'shreedu1_nodeuser',
-    password        : 'N*BLYmV2uB1[',
-    database        : 'shreedu1_nodejs_db'
+    user            : 'root',
+    password        : '',
+    database        : 'nodejs'
 })
 
 

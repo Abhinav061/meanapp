@@ -14,28 +14,14 @@ app.use(
   express.static(path.join(__dirname, "..", "dist",  "browser", "index.html"))
 );
 
+app.listen();
 
-
-
-            //SERVER CONFIGUE
-// app.listen();
-// const pool = mysql.createPool({
-//     connectionLimit  : 10,
-//     host            : 'localhost',
-//     user            : 'shreedu1_nodeuser',
-//     password        : 'N*BLYmV2uB1[',
-//     database        : 'shreedu1_nodejs_db'
-// })
-
-
-            //LOCAL CONFIGUE
-app.listen(port);
 const pool = mysql.createPool({
     connectionLimit  : 10,
     host            : 'localhost',
-    user            : 'root',
-    password        : '',
-    database        : 'nodejs'
+    user            : 'shreedu1_nodeuser',
+    password        : 'N*BLYmV2uB1[',
+    database        : 'shreedu1_nodejs_db'
 })
 
 
