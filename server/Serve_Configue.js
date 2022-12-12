@@ -25,6 +25,7 @@ const pool = mysql.createPool({
 })
 
 
+
 //Get All node - API
 app.get('/get-all-node', (req, res) => {
     pool.getConnection((err, connection) => {
@@ -33,14 +34,16 @@ app.get('/get-all-node', (req, res) => {
         connection.query('SELECT * from node', (err, rows) => {
             connection.release() // return the connection to pool
 
-            if (!err) {
-                res.send(rows)
-            } else {
-                console.log(err)
-            }
+            // if (!err) {
+            //     res.send(rows)
+            // } else {
+            //     console.log(err)
+            // }
 
-            // if(err) throw err
-            console.log('The data from Node table are: \n', rows)
+            // // if(err) throw err
+            // console.log('The data from Node table are: \n', rows)
+            if(err) throw err;
+            res.send(rows);
         })
     })
 })
@@ -53,13 +56,15 @@ app.get('/get-single-node/:id', (req, res) => {
         if(err) throw err
         connection.query('SELECT * FROM node WHERE id = ?', [req.params.id], (err, rows) => {
             connection.release() // return the connection to pool
-            if (!err) {
-                res.send(rows)
-            } else {
-                console.log(err)
-            }
+            // if (!err) {
+            //     res.send(rows)
+            // } else {
+            //     console.log(err)
+            // }
             
-            console.log('The data from Node table are: \n', rows)
+            // console.log('The data from Node table are: \n', rows)
+            if(err) throw err;
+            res.send(rows);
         })
     })
 });
@@ -72,13 +77,15 @@ app.delete('/delete-single-node/:id', (req, res) => {
         if(err) throw err
         connection.query('DELETE FROM node WHERE id = ?', [req.params.id], (err, rows) => {
             connection.release() // return the connection to pool
-            if (!err) {
-                res.send(`Node with the record ID ${[req.params.id]} has been removed.`)
-            } else {
-                console.log(err)
-            }
+            // if (!err) {
+            //     res.send(`Node with the record ID ${[req.params.id]} has been removed.`)
+            // } else {
+            //     console.log(err)
+            // }
             
-            console.log('The data from Node table are: \n', rows)
+            // console.log('The data from Node table are: \n', rows)
+            if(err) throw err;
+            res.send();
         })
     })
 });
@@ -93,11 +100,13 @@ app.post('/insert-single-node', (req, res) => {
         const params = req.body
         connection.query('INSERT INTO node SET ?', params, (err, rows) => {
         connection.release() // return the connection to pool
-        if (!err) {
-            res.send(`Node with the record ID has been added.`)
-        } else {
-            console.log(err)
-        }
+        // if (!err) {
+        //     res.send(`Node with the record ID has been added.`)
+        // } else {
+        //     console.log(err)
+        // }
+        if(err) throw err;
+        res.send();
         
         console.log('The data from Node table are:11 \n', rows)
 
@@ -118,14 +127,14 @@ app.put('/update-node-with-id', (req, res) => {
         connection.query('UPDATE node SET name = ? WHERE id = ?', [name, id] , (err, rows) => {
             connection.release() // return the connection to pool
 
-            if(!err) {
-                res.send(`Node with the name: ${name} has been added.`)
-            } else {
-                console.log(err)
-            }
+            // if(!err) {
+            //     res.send(`Node with the name: ${name} has been added.`)
+            // } else {
+            //     console.log(err)
+            // }
+            if(err) throw err;
+            res.send();
 
         })
-
-        console.log(req.body)
     })
 })
