@@ -15,10 +15,11 @@ export class AppComponent implements OnInit {
 
   title = 'client';
   Node: any;
-
+  view = 'Add';
   form = new FormGroup({
-    Name: new FormControl(''),
+    name: new FormControl(''),
    });
+   editForm: any;
 
   ngOnInit() {
   this.getAllNodes();
@@ -39,7 +40,10 @@ export class AppComponent implements OnInit {
   // }
 
   getSindleNodes(id:any){
-    this.apiService.getSindleNodes(id).subscribe((res)=>{
+    this.apiService.getSindleNodes(id).subscribe((res:any)=>{
+      this.view = 'Edit';
+      this.editForm = res;
+      this.form.controls.name.setValue(this.editForm[0].name);
       console.log(res, 'Single Node Response');
     })
   }
@@ -67,7 +71,7 @@ export class AppComponent implements OnInit {
   insertSingleNode(){
     const req = {
       "id" : "",
-      "name" : this.form.controls.Name.value
+      "name" : this.form.controls.name.value
     }
     this.apiService.insertSingleNode(req).subscribe((res)=>{
       console.log(res, 'Insert Response');
@@ -88,12 +92,15 @@ export class AppComponent implements OnInit {
 
   updateSingleNode(){
     const req = {
-      "id" : "",
-      "name" : ""
+      "id" : this.editForm[0].id,
+      "name" : this.form.controls.name.value
     }
     this.apiService.updateSingleNode(req).subscribe((res)=>{
       console.log(res, 'Update Response');
       this.getAllNodes();
+      this.editForm = [];
+      this.form.reset();
+      this.view = 'Add';
     })
   }
 

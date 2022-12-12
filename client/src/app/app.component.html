@@ -6,9 +6,10 @@
         <form [formGroup]="form">
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Name</label>
-            <input type="text" class="form-control" formControlName="Name">
+            <input type="text" class="form-control" formControlName="name">
           </div>
-          <button type="submit" class="btn btn-primary" (click)="insertSingleNode();">Add</button>
+          <button *ngIf="view == 'Add'" type="submit" class="btn btn-primary" (click)="insertSingleNode();">Add</button>
+          <button *ngIf="view == 'Edit'" type="submit" class="btn btn-primary" (click)="updateSingleNode();">Update</button>
         </form>
       </div>
       <div class="col-6">
