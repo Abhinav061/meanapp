@@ -8,8 +8,15 @@
             <label for="exampleInputEmail1" class="form-label">Name</label>
             <input type="text" class="form-control" formControlName="name">
           </div>
-          <button *ngIf="view == 'Add'" type="submit" class="btn btn-primary" (click)="insertSingleNode();">Add</button>
-          <button *ngIf="view == 'Edit'" type="submit" class="btn btn-primary" (click)="updateSingleNode();">Update</button>
+          <div class="row">
+            <div class="col-auto">
+              <button *ngIf="view == 'Add'" type="submit" class="btn btn-primary" (click)="insertSingleNode();">Add New</button>
+              <button *ngIf="view == 'Edit'" type="submit" class="btn btn-primary" (click)="updateSingleNode();">Update Id - {{this.editForm[0].id}}</button>
+            </div>
+            <div class="col">
+              <button *ngIf="view == 'Edit'" type="submit" class="btn btn-info" (click)="view = 'Add'; form.reset()">Add New</button>
+            </div>
+          </div>
         </form>
       </div>
       <div class="col-6">
