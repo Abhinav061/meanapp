@@ -1,8 +1,6 @@
 const express = require('express')
-const bodyParser = require('body-parser')
-const mysql = require('mysql')
 var path = require("path");
-
+var pool = require('./connection/mysql.js');
 const app = express()
 const port = process.env.PORT || 5000;
 app.use(express.urlencoded({extended: true})); 
@@ -11,37 +9,19 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "..", "dist", "browser")));
 app.use(
   "/",
-  express.static(path.join(__dirname, "..", "dist",  "browser", "index.html"))
+  express.static(path.join(__dirname, "..", "dist", "browser", "index.html"))
 );
 
-app.listen();
-
-const pool = mysql.createPool({
-    connectionLimit  : 10,
-    host            : 'localhost',
-    user            : 'shreedu1_nodeuser',
-    password        : 'N*BLYmV2uB1[',
-    database        : 'shreedu1_nodejs_db'
-})
+// app.listen(port, () => console.log(`Listening on port ${port}`))  //LOCAL CONFIGUE
+app.listen()  //SERVER CONFIGUE
 
 
-
-//Get All node - API
 app.get('/get-all-node', (req, res) => {
     pool.getConnection((err, connection) => {
         if(err) throw err
         console.log('connected as id ' + connection.threadId)
         connection.query('SELECT * from node', (err, rows) => {
-            connection.release() // return the connection to pool
-
-            // if (!err) {
-            //     res.send(rows)
-            // } else {
-            //     console.log(err)
-            // }
-
-            // // if(err) throw err
-            // console.log('The data from Node table are: \n', rows)
+            connection.release()
             if(err) throw err;
             res.send(rows);
         })
@@ -55,14 +35,7 @@ app.get('/get-single-node/:id', (req, res) => {
     pool.getConnection((err, connection) => {
         if(err) throw err
         connection.query('SELECT * FROM node WHERE id = ?', [req.params.id], (err, rows) => {
-            connection.release() // return the connection to pool
-            // if (!err) {
-            //     res.send(rows)
-            // } else {
-            //     console.log(err)
-            // }
-            
-            // console.log('The data from Node table are: \n', rows)
+            connection.release()
             if(err) throw err;
             res.send(rows);
         })
@@ -76,14 +49,7 @@ app.delete('/delete-single-node/:id', (req, res) => {
     pool.getConnection((err, connection) => {
         if(err) throw err
         connection.query('DELETE FROM node WHERE id = ?', [req.params.id], (err, rows) => {
-            connection.release() // return the connection to pool
-            // if (!err) {
-            //     res.send(`Node with the record ID ${[req.params.id]} has been removed.`)
-            // } else {
-            //     console.log(err)
-            // }
-            
-            // console.log('The data from Node table are: \n', rows)
+            connection.release()
             if(err) throw err;
             res.send();
         })
@@ -99,12 +65,7 @@ app.post('/insert-single-node', (req, res) => {
         
         const params = req.body
         connection.query('INSERT INTO node SET ?', params, (err, rows) => {
-        connection.release() // return the connection to pool
-        // if (!err) {
-        //     res.send(`Node with the record ID has been added.`)
-        // } else {
-        //     console.log(err)
-        // }
+        connection.release() 
         if(err) throw err;
         res.send();
         
@@ -125,13 +86,7 @@ app.put('/update-node-with-id', (req, res) => {
         const { id, name } = req.body
 
         connection.query('UPDATE node SET name = ? WHERE id = ?', [name, id] , (err, rows) => {
-            connection.release() // return the connection to pool
-
-            // if(!err) {
-            //     res.send(`Node with the name: ${name} has been added.`)
-            // } else {
-            //     console.log(err)
-            // }
+            connection.release() 
             if(err) throw err;
             res.send();
 
