@@ -1,0 +1,36 @@
+<div class="form-modal">
+    
+    <div class="form-toggle">
+        <button id="login-toggle" (click)="toggleLogin()">log in</button>
+        <button id="signup-toggle" (click)="toggleSignup()">sign up</button>
+    </div>
+
+    <div id="login-form" >
+        <form [formGroup]="loginForm">
+            <input type="text" formControlName="name" placeholder="Enter email or username"/>
+            <input type="password" formControlName="password" placeholder="Enter password"/>
+            <button type="button" [disabled]="!this.loginForm.valid" (click)="onLogin()" class="btn login">login</button>
+            <p><a href="javascript:void(0)">Forgotten account</a></p>
+            <hr/>
+            <!-- <button type="button" class="btn -box-sd-effect"> <i class="fa fa-google fa-lg" aria-hidden="true"></i> sign in with google</button>
+            <button type="button" class="btn -box-sd-effect"> <i class="fa fa-linkedin fa-lg" aria-hidden="true"></i> sign in with linkedin</button>
+            <button type="button" class="btn -box-sd-effect"> <i class="fa fa-windows fa-lg" aria-hidden="true"></i> sign in with microsoft</button> -->
+        </form>
+    </div>
+
+    <div id="signup-form">
+        <form [formGroup]="signupForm">
+            <input type="email" formControlName="email" placeholder="Enter your email"/>
+            <input type="text" formControlName="name" placeholder="Choose username"/>
+            <input type="password" formControlName="password" placeholder="Create password"/>
+            <input type="password" formControlName="password_repeat" placeholder="Confirm password"/>
+            <button type="button" [disabled]="!this.signupForm.valid" (click)="onsignup()" class="btn signup">create account</button>
+            <p>Clicking <strong>create account</strong> means that you are agree to our <a href="javascript:void(0)">terms of services</a>.</p>
+            <hr/>
+            <!-- <button type="button" class="btn -box-sd-effect"> <i class="fa fa-google fa-lg" aria-hidden="true"></i> sign up with google</button>
+            <button type="button" class="btn -box-sd-effect"> <i class="fa fa-linkedin fa-lg" aria-hidden="true"></i> sign up with linkedin</button>
+            <button type="button" class="btn -box-sd-effect"> <i class="fa fa-windows fa-lg" aria-hidden="true"></i> sign up with microsoft</button> -->
+        </form>
+    </div>
+
+</div>
