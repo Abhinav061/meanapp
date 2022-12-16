@@ -1,19 +1,15 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { ServicesService } from 'src/app/shared/services/services.service';
 
 @Component({
-  selector: 'app-main',
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.css']
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
-export class MainComponent implements OnInit  {
+export class HomeComponent implements OnInit  {
 
-  constructor(private httpClient: HttpClient,
-    private apiService: ServicesService,
-    private router: Router){}
+  constructor(private apiService: ServicesService){}
 
   title = 'client';
   Node: any;
@@ -22,9 +18,6 @@ export class MainComponent implements OnInit  {
     name: new FormControl(''),
    });
    editForm: any;
-
-   events: string[] = [];
-  opened: boolean = true;
 
   ngOnInit() {
   this.getAllNodes();
@@ -77,10 +70,4 @@ export class MainComponent implements OnInit  {
       this.view = 'Add';
     })
   }
-
-  logout(){
-    localStorage.clear();
-    this.router.navigate(['login']);
-  }
-
 }

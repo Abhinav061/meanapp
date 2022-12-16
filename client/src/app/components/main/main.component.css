@@ -1,0 +1,23 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+mat-sidenav-container{
+  height: 100%;
+  width: 100%;
+}
+
+.icon-center-vertically{
+  display:flex;
+  align-items: center;
+}
+
+.logo-class{
+  height: 64px;
+}
+
+/* @media (max-width: 599px) {
+  .logo-class{
+    height: 56px;
+  }
+} */

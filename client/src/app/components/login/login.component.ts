@@ -2,6 +2,11 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/shared/services/login.service';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -11,10 +16,15 @@ import { LoginService } from 'src/app/shared/services/login.service';
 export class LoginComponent {
   loginForm!: FormGroup;
   signupForm!: FormGroup;
+  view = 'Login';
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+
   constructor(
     private fb: FormBuilder, 
     private loginService : LoginService,
-    private router: Router){
+    private router: Router,
+    private snackBar: MatSnackBar){
 
   }
 
@@ -39,6 +49,7 @@ export class LoginComponent {
       this.loginService.login(this.loginForm.value).subscribe({
         next: (res)=>{
           this.loginService.storeToken(res)
+          this.openSnackBarLogin();
           this.router.navigate(['home'])
         },
         error:(err)=>{
@@ -49,13 +60,25 @@ export class LoginComponent {
     }
   }
 
+  openSnackBarLogin() {
+    this.snackBar.open('Logged In Successfully', 'Ok', {
+      duration: 3000
+    });
+  }
+
   onsignup(){
     if(this.signupForm.valid){
       console.log(this.signupForm)
       this.loginService.signUp(this.signupForm.value).subscribe((res : any)=>{
-        console.log(res, 'Login Response');
+        this.openSnackBarSignUp();
     });
     }
+  }
+
+  openSnackBarSignUp() {
+    this.snackBar.open(`${this.signupForm.value.name} - Registered  Succesfully!`, 'Ok', {
+      duration: 3000
+    });
   }
 
 

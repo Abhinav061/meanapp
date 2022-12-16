@@ -1,4 +1,4 @@
-<div class="form-modal">
+<!-- <div class="form-modal">
     
     <div class="form-toggle">
         <button id="login-toggle" (click)="toggleLogin()">log in</button>
@@ -12,9 +12,7 @@
             <button type="button" [disabled]="!this.loginForm.valid" (click)="onLogin()" class="btn login">login</button>
             <p><a href="javascript:void(0)">Forgotten account</a></p>
             <hr/>
-            <!-- <button type="button" class="btn -box-sd-effect"> <i class="fa fa-google fa-lg" aria-hidden="true"></i> sign in with google</button>
-            <button type="button" class="btn -box-sd-effect"> <i class="fa fa-linkedin fa-lg" aria-hidden="true"></i> sign in with linkedin</button>
-            <button type="button" class="btn -box-sd-effect"> <i class="fa fa-windows fa-lg" aria-hidden="true"></i> sign in with microsoft</button> -->
+          
         </form>
     </div>
 
@@ -27,10 +25,69 @@
             <button type="button" [disabled]="!this.signupForm.valid" (click)="onsignup()" class="btn signup">create account</button>
             <p>Clicking <strong>create account</strong> means that you are agree to our <a href="javascript:void(0)">terms of services</a>.</p>
             <hr/>
-            <!-- <button type="button" class="btn -box-sd-effect"> <i class="fa fa-google fa-lg" aria-hidden="true"></i> sign up with google</button>
-            <button type="button" class="btn -box-sd-effect"> <i class="fa fa-linkedin fa-lg" aria-hidden="true"></i> sign up with linkedin</button>
-            <button type="button" class="btn -box-sd-effect"> <i class="fa fa-windows fa-lg" aria-hidden="true"></i> sign up with microsoft</button> -->
         </form>
     </div>
 
-</div>
+</div> -->
+
+
+<div class="full-page">
+    <mat-card class="login-card" *ngIf="view == 'Login'">
+        <mat-card-title>
+            <u>Login to Mean App</u>
+        </mat-card-title>
+        <mat-card-content [formGroup]="loginForm">
+            <mat-form-field class="login-field">
+                <input matInput placeholder="User Name" name="email" formControlName="name" type="email"/>
+            </mat-form-field>
+            <mat-form-field class="login-field">
+                <input matInput placeholder="Password" name="password" formControlName="password" type="password"/>
+            </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="primary" [disabled]="!this.loginForm.valid"
+                    class="login-field" (click)="onLogin()" type="submit">
+                Login
+            </button>
+            <p class="m-2">OR</p>
+            <button mat-raised-button (click)="view = 'Signup'"
+                    class="login-field" type="submit">
+                Signup
+            </button>
+        </mat-card-actions>
+    </mat-card>
+
+
+    <mat-card class="login-card"  *ngIf="view == 'Signup'">
+        <mat-card-title>
+            <u>Sign up to Mean App</u>
+        </mat-card-title>
+        <mat-card-content [formGroup]="signupForm">
+            <mat-form-field class="login-field">
+                <input matInput placeholder="User Name" name="name" formControlName="name" type="email"/>
+            </mat-form-field>
+            <mat-form-field class="login-field">
+                <input matInput placeholder="Email" name="email" formControlName="email" type="password"/>
+            </mat-form-field>
+            <mat-form-field class="login-field">
+                <input matInput placeholder="Password" name="password" formControlName="password" type="password"/>
+            </mat-form-field>
+            <mat-form-field class="login-field">
+                <input matInput placeholder="Confirm Password" name="password" formControlName="password_repeat" type="password"/>
+            </mat-form-field>
+            
+            
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="primary" [disabled]="!this.signupForm.valid"
+                    class="login-field" (click)="onsignup()" type="submit">
+                Signup
+            </button>
+            <p class="m-2">OR</p>
+            <button mat-raised-button  (click)="view = 'Login'"
+                    class="login-field"  type="submit">
+                Login
+            </button>
+        </mat-card-actions>
+    </mat-card>
+    </div>
