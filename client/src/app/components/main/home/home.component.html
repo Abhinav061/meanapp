@@ -1,4 +1,4 @@
-
+<div class="responsive-content">
 <div class="h-100 d-flex align-items-center justify-content-center">
     <div class="container">
       <div class="row">
@@ -10,11 +10,11 @@
             </div>
             <div class="row">
               <div class="col-auto">
-                <button *ngIf="view == 'Add'" type="submit" class="btn btn-primary" (click)="insertSingleNode();">Add New</button>
-                <button *ngIf="view == 'Edit'" type="submit" class="btn btn-primary" (click)="updateSingleNode();">Update Id - {{this.editForm[0].id}}</button>
+                <button *ngIf="view == 'Add'" type="submit" mat-raised-button color="primary" (click)="insertSingleNode();">Add New</button>
+                <button *ngIf="view == 'Edit'" type="submit" mat-raised-button color="primary" (click)="updateSingleNode();">Update Id - {{this.editForm[0].id}}</button>
               </div>
               <div class="col">
-                <button *ngIf="view == 'Edit'" type="submit" class="btn btn-info" (click)="view = 'Add'; form.reset()">Add New</button>
+                <button *ngIf="view == 'Edit'" type="submit" mat-stroked-button color="primary" (click)="view = 'Add'; form.reset()">Add New</button>
               </div>
             </div>
           </form>
@@ -24,6 +24,7 @@
           <table class="table">
             <thead>
               <tr>
+                <th scope="col">Sl. No.</th>
                 <th scope="col">Id</th>
                 <th scope="col">Name</th>
                 <th scope="col">Edit</th>
@@ -31,11 +32,12 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of Node">
+              <tr *ngFor="let item of Node; index as i">
+                <th scope="row">{{i+1}}</th>
                 <th scope="row">{{item.id}}</th>
                 <td>{{item.name}}</td>
-                <td><button class="btn btn-primary" (click)="getSindleNodes(item.id)">Edit</button></td>
-                <td><button class="btn btn-danger" (click)="deleteSingleNode(item.id)">Delete</button></td>
+                <td><button mat-stroked-button color="primary" (click)="getSindleNodes(item.id)">Edit</button></td>
+                <td><button mat-stroked-button color="warn" (click)="deleteSingleNode(item.id)">Delete</button></td>
               </tr>
               <tr>
             </tbody>
@@ -47,3 +49,5 @@
     
     </div>
   </div>
+
+</div>
