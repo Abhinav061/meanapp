@@ -16,6 +16,10 @@ mat-sidenav-container{
   height: 64px;
 }
 
+.responsive-content {
+  overflow : auto;
+}
+
 /* @media (max-width: 599px) {
   .logo-class{
     height: 56px;
