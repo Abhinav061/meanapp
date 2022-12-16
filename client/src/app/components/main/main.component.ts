@@ -9,36 +9,36 @@ import { ServicesService } from 'src/app/shared/services/services.service';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
-export class MainComponent implements OnInit  {
+export class MainComponent implements OnInit {
 
   constructor(private httpClient: HttpClient,
     private apiService: ServicesService,
-    private router: Router){}
+    private router: Router) { }
 
   title = 'client';
   Node: any;
   view = 'Add';
   form = new FormGroup({
     name: new FormControl(''),
-   });
-   editForm: any;
+  });
+  editForm: any;
 
-   events: string[] = [];
+  events: string[] = [];
   opened: boolean = true;
 
   ngOnInit() {
-  this.getAllNodes();
+    this.getAllNodes();
   }
 
-  getAllNodes(){
-    this.apiService.getAllNodes().subscribe((res : any)=>{
+  getAllNodes() {
+    this.apiService.getAllNodes().subscribe((res: any) => {
       console.log(res, 'All Node Response');
       this.Node = res;
-  });
+    });
   }
 
-  getSindleNodes(id:any){
-    this.apiService.getSindleNodes(id).subscribe((res:any)=>{
+  getSindleNodes(id: any) {
+    this.apiService.getSindleNodes(id).subscribe((res: any) => {
       this.view = 'Edit';
       this.editForm = res;
       this.form.controls.name.setValue(this.editForm[0].name);
@@ -46,30 +46,30 @@ export class MainComponent implements OnInit  {
     })
   }
 
-  deleteSingleNode(id:any){
-    this.apiService.deleteSingleNode(id).subscribe((res)=>{
+  deleteSingleNode(id: any) {
+    this.apiService.deleteSingleNode(id).subscribe((res) => {
       console.log(res, 'delete Response');
       this.getAllNodes();
     })
   }
 
-  insertSingleNode(){
+  insertSingleNode() {
     const req = {
-      "id" : "",
-      "name" : this.form.controls.name.value
+      "id": "",
+      "name": this.form.controls.name.value
     }
-    this.apiService.insertSingleNode(req).subscribe((res)=>{
+    this.apiService.insertSingleNode(req).subscribe((res) => {
       console.log(res, 'Insert Response');
       this.getAllNodes();
     })
   }
 
-  updateSingleNode(){
+  updateSingleNode() {
     const req = {
-      "id" : this.editForm[0].id,
-      "name" : this.form.controls.name.value
+      "id": this.editForm[0].id,
+      "name": this.form.controls.name.value
     }
-    this.apiService.updateSingleNode(req).subscribe((res)=>{
+    this.apiService.updateSingleNode(req).subscribe((res) => {
       console.log(res, 'Update Response');
       this.getAllNodes();
       this.editForm = [];
@@ -78,7 +78,7 @@ export class MainComponent implements OnInit  {
     })
   }
 
-  logout(){
+  logout() {
     localStorage.clear();
     this.router.navigate(['login']);
   }

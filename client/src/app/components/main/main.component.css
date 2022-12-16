@@ -2,26 +2,25 @@
   flex: 1 1 auto;
 }
 
-mat-sidenav-container{
+mat-sidenav-container {
   height: 100%;
   width: 100%;
 }
 
-.icon-center-vertically{
-  display:flex;
+.icon-center-vertically {
+  display: flex;
   align-items: center;
 }
 
-.logo-class{
+.logo-class {
   height: 64px;
 }
 
 .responsive-content {
-  overflow : auto;
+  overflow: auto;
 }
 
-/* @media (max-width: 599px) {
-  .logo-class{
-    height: 56px;
-  }
-} */
+
+.chevron.rotated {
+  transform: rotate(180deg);
+}

@@ -2,25 +2,18 @@
   <mat-sidenav #sidenav mode="side" [(opened)]="opened" (opened)="events.push('open!')"
     (closed)="events.push('close!')">
 
-
+    <mat-toolbar color="primary">
+      <span>LOGO</span>
+    </mat-toolbar>
 
 
     <mat-nav-list>
-
-      <mat-list-item class="logo-class border-bottom">
-        <div class="icon-center-vertically">
-          <h1>LOGO</h1>
-        </div>
-      </mat-list-item>
-
       <mat-list-item>
         <div class="icon-center-vertically">
           <mat-icon class="mr-2">home</mat-icon>
           <span>Home</span>
         </div>
       </mat-list-item>
-
-
 
     </mat-nav-list>
   </mat-sidenav>
@@ -30,7 +23,7 @@
       <mat-toolbar color="primary">
         <button mat-icon-button (click)="sidenav.toggle()" class="example-icon"
           aria-label="Example icon-button with menu icon">
-          <mat-icon>menu</mat-icon>
+          <mat-icon class="chevron" [ngClass]="{'rotated' : opened}">chevron_right</mat-icon>
         </button>
         <span>Mean App</span>
         <span class="example-spacer"></span>
