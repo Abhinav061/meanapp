@@ -61,15 +61,10 @@ usersRoute.post('/sign-up', userMiddleware.validateRegister, (req, res, next) =>
     );
   });
 
-usersRoute.post('/login', (req, res, next) => {
-  
-  // {
-  //   "name" : "AbhinavJyoti",
-  //   "password" : "password@12345"
-  // }
 
-    db.query(
-      `SELECT * FROM users WHERE name = ${db.escape(req.body.name)};`,
+usersRoute.post('/login', (req, res, next) => {
+   const query = db.query(
+      `SELECT * FROM users WHERE ${req.body.name.includes("@") ? 'email' : 'name'} = ${db.escape(req.body.name)};`,
       (err, result) => {
         // user does not exists
         if (err) {
@@ -124,50 +119,12 @@ usersRoute.post('/login', (req, res, next) => {
         );
       }
     );
+    // console.log('********Quer',query);
   });
 
 usersRoute.get('/secret-route', userMiddleware.isLoggedIn, (req, res, next) => {
     console.log(req.userData);
     res.send('This is the secret content. Only logged in users can see that!');
   });
-
-
-
-
-// usersRoute.post('/insert-user', (req, res) => {
-//     db.getConnection((err, connection) => {
-//         if (err) throw err
-//         const params = req.body
-//         connection.query('INSERT INTO users SET ?', params, (err, rows) => {
-//             connection.release()
-//             if (err) throw err;
-//             res.send();
-//             console.log('The data from users table are:11 \n', rows)
-//         })
-//     })
-// });
-
-// usersRoute.get('/get-all-users', (req, res) => {
-//     db.getConnection((err, connection) => {
-//         if(err) throw err
-//         console.log('connected as id ' + connection.threadId)
-//         connection.query('SELECT * from users', (err, rows) => {
-//             connection.release()
-//             if(err) throw err;
-//             res.send(rows);
-//         })
-//     })
-// })
-
-// usersRoute.get('/get-user/:email', (req, res) => {
-//     db.getConnection((err, connection) => {
-//         if(err) throw err
-//         connection.query('SELECT * FROM users WHERE email = ?', [req.params.email], (err, rows) => {
-//             connection.release()
-//             if(err) throw err;
-//             res.send(rows);
-//         })
-//     })
-// });
 
 module.exports = usersRoute;
