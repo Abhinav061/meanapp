@@ -36,5 +36,6 @@ export class LoginService {
   loggedInDetails(details : any){
     localStorage.setItem("loggedUserName",details.user.name);
     localStorage.setItem("loggedUserId",details.user.id);
+    localStorage.setItem("loggedUserRole",details.user.role)
   }
 }
