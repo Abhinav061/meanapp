@@ -5,7 +5,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class LoginService {
-
+  loggedInUserDetails: any;
+  
   constructor(
     private http : HttpClient
   ) { }
@@ -31,5 +32,9 @@ export class LoginService {
   isLoggedIn(): boolean{
     return !!localStorage.getItem('token')
   }
-  
+
+  loggedInDetails(details : any){
+    localStorage.setItem("loggedUserName",details.user.name);
+    localStorage.setItem("loggedUserId",details.user.id);
+  }
 }

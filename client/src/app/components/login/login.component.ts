@@ -47,6 +47,7 @@ export class LoginComponent {
       console.log(this.loginForm)
       this.loginService.login(this.loginForm.value).subscribe({
         next: (res) => {
+          this.loginService.loggedInDetails(res);
           this.loginService.storeToken(res)
           this.openSnackBarLogin(res);
           this.router.navigate(['home'])
