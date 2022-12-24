@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+var validator = require("email-validator");
 
 module.exports = {
     validateRegister: (req, res, next) => {
@@ -6,6 +7,13 @@ module.exports = {
             return res.status(400).send({
                 message: "Please enter min 3 char"
             });
+        }
+
+         // valide email
+        if (!req.body.email || !validator.validate(req.body.email)) {
+          return res.status(400).send({
+            msg: "Please enter a valid email address",
+          });
         }
 
         if (!req.body.password || req.body.password.length < 3) {
