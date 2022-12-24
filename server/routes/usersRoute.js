@@ -6,18 +6,11 @@ const jwt = require("jsonwebtoken");
 const db = require('../connection/mysql.js');
 const userMiddleware = require("../middleware/userRoute.js");
 const uuid = require('uuid')
+const mailer = require("../lib/mailer.js")
 
 // routes/router.js
 
 usersRoute.post('/sign-up', userMiddleware.validateRegister, (req, res, next) => {
-  // {
-  //   "id" : "",
-  //   "name" : "AbhinavJyoti",
-  //   "email" : "abhinav@gmail.com",
-  //   "password" : "password@12345",
-  //   "password_repeat" : "password@12345"
-  // }
-
     db.query(
       `SELECT * FROM users WHERE LOWER(name) = LOWER(${db.escape(
         req.body.name
@@ -25,7 +18,7 @@ usersRoute.post('/sign-up', userMiddleware.validateRegister, (req, res, next) =>
       (err, result) => {
         if (result.length) {
           return res.status(409).send({
-            msg: 'This username is already in use!'
+            msg: 'This username or email is already in use!'
           });
         } else {
           // username is available
@@ -36,19 +29,35 @@ usersRoute.post('/sign-up', userMiddleware.validateRegister, (req, res, next) =>
               });
             } else {
               // has hashed pw => add to database
+
+              let email = req.body.email;
+              let userID = uuid.v4();
+              let token = uuid.v4();
+
               db.query(
-                `INSERT INTO users (id, name, email,password, registered, role) VALUES ('${uuid.v4()}', ${db.escape(
-                  req.body.name
-                )}, ${db.escape(
-                  req.body.email
-                )}, ${db.escape(hash)}, now(), 'user')`,
-                (err, result) => {
+                `INSERT INTO users (id, name, email,password, registered, role, active, token) VALUES (
+                  '${userID}',
+                   ${db.escape(req.body.name)},
+                   ${db.escape(email)},
+                   ${db.escape(hash)},
+                   now(),
+                   'user',
+                   0,
+                   '${token}')`,
+                async (err, result) => {
                   if (err) {
                     throw err;
                     return res.status(400).send({
                       msg: err
                     });
                   }
+
+                  await mailer.sendOptInMail(
+                    email,
+                    userID,
+                    token
+                  );
+
                   return res.status(201).send({
                     msg: 'Registered!'
                   });
@@ -71,6 +80,12 @@ usersRoute.post('/login', (req, res, next) => {
           throw err;
           return res.status(400).send({
             msg: err
+          });
+        }
+
+        if (!result[0]["active"]) {
+          return res.status(401).send({
+            msg: "Your account is not activated!",
           });
         }
   
@@ -99,7 +114,7 @@ usersRoute.post('/login', (req, res, next) => {
                   id: result[0].id
                 },
                 'SECRETKEY', {
-                  expiresIn: '7d'
+                  expiresIn: '1d'
                 }
               );
   
@@ -125,6 +140,57 @@ usersRoute.post('/login', (req, res, next) => {
 usersRoute.get('/secret-route', userMiddleware.isLoggedIn, (req, res, next) => {
     console.log(req.userData);
     res.send('This is the secret content. Only logged in users can see that!');
+  });
+
+
+  usersRoute.get("/verify/:userID/:token", (req, res, next) => {
+    let userID = req.params.userID;
+    let token = req.params.token;
+    db.query(
+      `SELECT * FROM users WHERE id = ${db.escape(userID)}`,
+      (err, result) => {
+        // user does not exists
+        if (err) {
+          throw err;
+          return res.status(400).send({
+            msg: err,
+          });
+        }
+        // no result from database
+        if (!result.length) {
+          return res.status(409).send({
+            msg: "The requested parameters are incorrect!",
+          });
+        }
+        // already activated
+        if (result[0]["active"]) {
+          return res.status(409).send({
+            msg: "Account is already activated!",
+          });
+        }
+        // wrong activation token
+        if (result[0]["token"] !== token) {
+          return res.status(401).send({
+            msg: "The requested parameters are incorrect!",
+          });
+        }
+        // set account active
+        db.query(
+          `UPDATE users SET active = 1 WHERE id = '${userID}'`,
+          (err, result) => {
+            if (err) {
+              throw err;
+              return res.status(400).send({
+                msg: err,
+              });
+            }
+            return res.status(200).send({
+              msg: "Account activated",
+            });
+          }
+        );
+      }
+    );
   });
 
 module.exports = usersRoute;
