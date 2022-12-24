@@ -50,6 +50,18 @@ export class LoginComponent {
           this.loginService.loggedInDetails(res);
           this.loginService.storeToken(res)
           this.openSnackBarLogin(res);
+          const emailBody ={
+            "email" : localStorage.getItem('loggedUserEmail'),
+            "name" : localStorage.getItem('loggedUserName')
+          }
+          this.loginService.sendLoginMail(emailBody).subscribe({
+            next: (res) => {
+              console.log('Mail sent!!', res);
+            },
+            error: (err) => {
+              console.log('Mail Not sent', err);
+            }
+          });
           this.router.navigate(['home'])
         },
         error: (err) => {

@@ -20,6 +20,10 @@ export class LoginService {
     return this.http.post(`/api/user/login`,loginObj);
   }
 
+  sendLoginMail(emailObj: any){
+    return this.http.post('/api/email/login',emailObj);
+  }
+
   storeToken(tokenRes: any){
     const tokenValue = tokenRes.token
     localStorage.setItem('token', tokenValue)
@@ -34,6 +38,7 @@ export class LoginService {
   }
 
   loggedInDetails(details : any){
+    localStorage.setItem("loggedUserEmail",details.user.email);
     localStorage.setItem("loggedUserName",details.user.name);
     localStorage.setItem("loggedUserId",details.user.id);
     localStorage.setItem("loggedUserRole",details.user.role)
