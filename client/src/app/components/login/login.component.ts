@@ -125,15 +125,15 @@ export class LoginComponent {
     }
 }
 
-check(e:any) {
-  console.log(e);
-  if (this.signupForm.value.password_repeat == this.loginForm.value.password && e !== '') {
-    this.checkPassword = 'true';
-  } else {
-    this.checkPassword = 'false';
-  }
-}
+// check(e:any) {
+//   console.log(e);
+//   if (this.signupForm.value.password_repeat == this.loginForm.value.password && e !== '') {
+//     this.checkPassword = 'true';
+//   } else {
+//     this.checkPassword = 'false';
+//   }
+// }
 
-get f() { return this.signupForm.controls; }
+// get f() { return this.signupForm.controls; }
 
 }
