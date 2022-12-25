@@ -19,6 +19,8 @@ export class LoginComponent {
   view = 'Login';
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
+  submitted = false;
+  checkPassword = '';
 
   constructor(
     private fb: FormBuilder,
@@ -31,14 +33,14 @@ export class LoginComponent {
   ngOnInit() {
     this.loginForm = this.fb.group({
       name: ['', Validators.required],
-      password: ['', Validators.required]
+      password: ['', [Validators.required, Validators.minLength(6)]]
     })
 
     this.signupForm = this.fb.group({
       name: ['', Validators.required],
-      email: ['', Validators.required],
-      password: ['', Validators.required],
-      password_repeat: ['', Validators.required]
+      email: ['', [Validators.required, Validators.email,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      password: ['',[Validators.required, Validators.minLength(6)]],
+      password_repeat: ['',[Validators.required, Validators.minLength(6)]]
     })
   }
 
@@ -111,5 +113,27 @@ export class LoginComponent {
       duration: 3000
     });
   }
+
+  onSubmit() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.signupForm.invalid) {
+        return;
+    }else{
+      alert('SUCCESS!!' + 'You Have Registered Successfully!')
+    }
+}
+
+check(e:any) {
+  console.log(e);
+  if (this.signupForm.value.password_repeat == this.loginForm.value.password && e !== '') {
+    this.checkPassword = 'true';
+  } else {
+    this.checkPassword = 'false';
+  }
+}
+
+get f() { return this.signupForm.controls; }
 
 }
