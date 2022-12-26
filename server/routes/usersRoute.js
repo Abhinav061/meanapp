@@ -12,13 +12,13 @@ const mailer = require("../lib/mailer.js")
 
 usersRoute.post('/sign-up', userMiddleware.validateRegister, (req, res, next) => {
     db.query(
-      `SELECT * FROM users WHERE LOWER(name) = LOWER(${db.escape(
-        req.body.name
+      `SELECT * FROM users WHERE LOWER(email) = LOWER(${db.escape(
+        req.body.email
       )});`,
       (err, result) => {
         if (result.length) {
           return res.status(409).send({
-            msg: 'This username or email is already in use!'
+            msg: `${req.body.email} already registered!`
           });
         } else {
           // username is available
