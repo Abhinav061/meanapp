@@ -14,6 +14,7 @@ import {
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  loader: any[] = [];
   loginForm!: FormGroup;
   signupForm!: FormGroup;
   view = 'Login';
@@ -45,6 +46,7 @@ export class LoginComponent {
   onLogin() {
     if (this.loginForm.valid) {
       console.log(this.loginForm)
+      this.loader.push(1);
       this.loginService.login(this.loginForm.value).subscribe({
         next: (res) => {
           this.loginService.loggedInDetails(res);
@@ -62,10 +64,11 @@ export class LoginComponent {
               console.log('Mail Not sent', err);
             }
           });
+          this.loader.pop();
           this.router.navigate(['home'])
         },
         error: (err) => {
-          console.log('Login error is', err);
+          this.loader.pop();
           this.errorSnackBarLogin(err);
         }
       });
@@ -86,13 +89,16 @@ export class LoginComponent {
 
   onsignup() {
     if (this.signupForm.valid) {
-      console.log(this.signupForm)
+      
+      this.loader.push(1);
       this.loginService.signUp(this.signupForm.value).subscribe({
         next: (res) => {
+
+          this.loader.pop();
           this.openSnackBarSignUp();
         },
         error: (err) => {
-          console.log('Login error is', err);
+          this.loader.pop();
           this.errorSnackBarSignup(err);
         }
       });
