@@ -107,7 +107,7 @@ export class LoginComponent {
 
 
   errorSnackBarSignup(err: any) {
-    this.snackBar.open(`${err.error.message}`, 'Ok', {
+    this.snackBar.open(`${err.error.msg}`, 'Ok', {
       duration: 3000
     });
   }

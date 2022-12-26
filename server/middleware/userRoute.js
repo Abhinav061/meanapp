@@ -5,7 +5,7 @@ module.exports = {
     validateRegister: (req, res, next) => {
         if (!req.body.name || req.body.name.length < 3) {
             return res.status(400).send({
-                message: "Please enter min 3 char"
+              msg: "Please enter min 3 char"
             });
         }
 
@@ -18,14 +18,14 @@ module.exports = {
 
         if (!req.body.password || req.body.password.length < 3) {
             return res.status(400).send({
-                message: "Please enter Password min 6 char"
+              msg: "Please enter Password min 6 char"
             });
         }
 
         if (!req.body.password_repeat ||
             req.body.password != req.body.password_repeat) {
             return res.status(400).send({
-                message: "Both passwords must match"
+              msg: "Both passwords must match"
             });
         }
         next();
