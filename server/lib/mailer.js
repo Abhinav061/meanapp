@@ -25,3 +25,18 @@ module.exports = {
       await transporter.sendMail(mail);
     },
   };
+
+
+  module.exports = {
+    async resetPasswordMail(email, id, token) {
+      let activationLink = `http://www.mean.w3designing.com/api/user/reset-password/${id}/${token}`;
+      let mail = {
+        from: '<admin@mean.w3designing.com>',
+        to: email,
+        subject: "Reset Password",
+        text: `To activate your account, please click this link: ${activationLink}`,
+        html: `<p>To reset password, <a href="${activationLink}">Click here</a></p>`,
+      };
+      await transporter.sendMail(mail);
+    },
+  };
