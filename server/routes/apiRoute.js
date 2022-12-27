@@ -98,5 +98,20 @@ apiRoute.get('/all-user-data', userMiddleware.isLoggedIn, (req, res) => {
 })
 
 
+apiRoute.post('/insert-student-data', userMiddleware.isLoggedIn, (req, res) => {
+
+    pool.getConnection((err, connection) => {
+        if(err) throw err
+        const params = req.body
+        connection.query('INSERT INTO studentpersonalinfo SET ?', params, (err, rows) => {
+        connection.release() 
+        if(err) throw err;
+        res.send("Data Inserted!!!");
+
+        })
+    })
+});
+
+
 
 module.exports = apiRoute;
