@@ -53,8 +53,8 @@ export class LoginComponent {
           this.loginService.storeToken(res)
           this.openSnackBarLogin(res);
           const emailBody ={
-            "email" : localStorage.getItem('loggedUserEmail'),
-            "name" : localStorage.getItem('loggedUserName')
+            "email" : this.loginService.getUserEmail(),
+            "name" :  this.loginService.getUserName()
           }
           this.loginService.sendLoginMail(emailBody).subscribe({
             next: (res) => {
