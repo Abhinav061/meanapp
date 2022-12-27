@@ -21,9 +21,9 @@ export class HomeComponent implements OnInit {
     name: new FormControl(''),
   });
   editForm: any;
-  userName = this.loginService.getUserName()
-  userId = this.loginService.getUserId()
-  userRole = this.loginService.getUserRole()
+  userName = localStorage.getItem('loggedUserName');
+  userId = localStorage.getItem('loggedUserId');
+  userRole = localStorage.getItem('loggedUserRole');
 
   ngOnInit() {
     this.userData();

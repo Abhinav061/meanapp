@@ -6,10 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class LoginService {
   loggedInUserDetails: any;
-  name: any;
-  email: any;
-  id: any;
-  role: any;
+  
   constructor(
     private http : HttpClient
   ) { }
@@ -41,42 +38,9 @@ export class LoginService {
   }
 
   loggedInDetails(details : any){
-    this.setUserEmail(details.user.email);
-    this.setUserName(details.user.name);
-    this.setUserId(details.user.id);
-    this.setUserRole(details.user.role);
-    
-  }
-
-  setUserEmail(email: any){
-    this.email = email;
-  }
-
-  getUserEmail(){
-    return this.email;
-  }
-
-  setUserName(name: any){
-    this.name = name
-  }
-
-  getUserName(){
-    return this.name
-  }
-
-  setUserId(id: any){
-    this.role = id
-  }
-
-  getUserId(){
-    return this.id
-  }
-
-  setUserRole(role: any){
-    this.role = role
-  }
-
-  getUserRole(){
-    return this.role
+    localStorage.setItem("loggedUserEmail",details.user.email);
+    localStorage.setItem("loggedUserName",details.user.name);
+    localStorage.setItem("loggedUserId",details.user.id);
+    localStorage.setItem("loggedUserRole",details.user.role)
   }
 }
