@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+
 var path = require("path");
 const port = process.env.PORT || 5000;
 
@@ -13,9 +14,9 @@ const emailRoute = require('./routes/emailRoute.js');
 app.use('/api', apiRoute);
 app.use('/api/user', usersRoute);
 app.use('/api/email', emailRoute);
-
 app.use(express.urlencoded({extended: true})); 
 app.use(express.json()); 
+app.set('view engine', 'ejs')
 
 app.use(express.static(path.join(__dirname, "..", "dist", "browser")));
 app.use(
