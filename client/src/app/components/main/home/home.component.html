@@ -1,3 +1,4 @@
+<app-loader *ngIf="loader.length > 0"></app-loader>
 <div class="h-100 d-flex align-items-center justify-content-center">
   <div class="container">
     <div class="row">
@@ -9,9 +10,9 @@
           </div>
           <div class="row">
             <div class="col-auto">
-              <button *ngIf="view == 'Add'" type="submit" mat-raised-button color="primary"
+              <button *ngIf="view == 'Add'" type="submit" mat-raised-button color="primary" [disabled]="!this.form.value.name"
                 (click)="insertUserData();">Add New</button>
-              <button *ngIf="view == 'Edit'" type="submit" mat-raised-button color="primary"
+              <button *ngIf="view == 'Edit'" type="submit" mat-raised-button color="primary" [disabled]="this.form.value.name == ''"
                 (click)="updateUserData();">Update Id - {{this.editForm[0].id}}</button>
             </div>
             <div class="col">

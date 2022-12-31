@@ -47,6 +47,7 @@ export class HomeComponent implements OnInit {
   }
 
   insertUserData() {
+    this.loader.push(1);
     const req = {
       "id": "",
       "name": this.form.controls.name.value,
@@ -55,11 +56,13 @@ export class HomeComponent implements OnInit {
     }
     this.apiService.insertUserData(req).subscribe((res) => {
       this.userData();
+      this.loader.pop();
     })
   }
 
 
   updateUserData() {
+    this.loader.push(1);
     const req = {
       "id": this.editForm[0].id,
       "name": this.form.controls.name.value,
@@ -71,31 +74,39 @@ export class HomeComponent implements OnInit {
       this.editForm = [];
       this.form.reset();
       this.view = 'Add';
+      this.loader.pop();
     })
   }
 
   editUserData(id: any) {
+    this.loader.push(1);
     this.apiService.editUserData(id).subscribe((res: any) => {
       this.view = 'Edit';
       this.editForm = res;
       this.form.controls.name.setValue(this.editForm[0].name);
+      this.loader.pop();
     })
   }
 
   deleteUserData(id: any) {
+    this.loader.push(1);
     this.apiService.deleteUserData(id).subscribe((res) => {
       this.userData();
+      this.loader.pop();
     })
   }
 
   userData() {
+    this.loader.push(1);
     if (this.userRole == 'admin') {
       this.apiService.alluserData().subscribe((res: any) => {
         this.Node = res;
+        this.loader.pop();
       });
     } else if (this.userRole == 'user') {
       this.apiService.userData(this.userId).subscribe((res: any) => {
         this.Node = res;
+        this.loader.pop();
       });
     }
   }
