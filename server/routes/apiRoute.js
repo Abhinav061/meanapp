@@ -14,7 +14,7 @@ apiRoute.post('/insert-user-data', userMiddleware.isLoggedIn, (req, res) => {
         if(err) throw err;
         res.send();
         
-        console.log('The data from Node table are:11 \n', rows)
+        //console.log('The data from Node table are:11 \n', rows)
 
         })
     })
@@ -25,7 +25,7 @@ apiRoute.put('/update-user-data', userMiddleware.isLoggedIn, (req, res) => {
 
     pool.getConnection((err, connection) => {
         if(err) throw err
-        console.log(`connected as id ${connection.threadId}`)
+        //console.log(`connected as id ${connection.threadId}`)
 
         const { id, name, added_by_user_id, added_by_user_name  } = req.body
 
@@ -88,7 +88,7 @@ apiRoute.get('/user-data/:added_by_user_id', userMiddleware.isLoggedIn, (req, re
 apiRoute.get('/all-user-data', userMiddleware.isLoggedIn, (req, res) => {
     pool.getConnection((err, connection) => {
         if(err) throw err
-        console.log('connected as id ' + connection.threadId)
+        //console.log('connected as id ' + connection.threadId)
         connection.query('SELECT * from user_data', (err, rows) => {
             connection.release()
             if(err) throw err;

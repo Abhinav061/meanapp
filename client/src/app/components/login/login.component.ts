@@ -45,16 +45,30 @@ export class LoginComponent {
 
   onLogin() {
     if (this.loginForm.valid) {
-      console.log(this.loginForm)
       this.loader.push(1);
       this.loginService.login(this.loginForm.value).subscribe({
         next: (res) => {
-          this.loginService.loggedInDetails(res);
-          this.loginService.storeToken(res)
+          this.loginService.storeToken(res);
+          this.getUserDetails();
+          this.loader.pop();
+          this.router.navigate(['home'])
+        },
+        error: (err) => {
+          this.loader.pop();
+          this.errorSnackBarLogin(err);
+        }
+      });
+    }
+  }
+
+  getUserDetails(){
+    this.loader.push(1);
+      this.loginService.getUserDetails().subscribe({
+        next: (res : any) => {
           this.openSnackBarLogin(res);
           const emailBody ={
-            "email" : localStorage.getItem('loggedUserEmail'),
-            "name" : localStorage.getItem('loggedUserName')
+            "email" : res.user.email,
+            "name" : res.user.name
           }
           this.loginService.sendLoginMail(emailBody).subscribe({
             next: (res) => {
@@ -65,14 +79,12 @@ export class LoginComponent {
             }
           });
           this.loader.pop();
-          this.router.navigate(['home'])
         },
         error: (err) => {
           this.loader.pop();
           this.errorSnackBarLogin(err);
         }
       });
-    }
   }
 
   openSnackBarLogin(data: any) {

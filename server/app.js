@@ -23,6 +23,6 @@ app.use(
   express.static(path.join(__dirname, "..", "dist", "browser", "index.html"))
 );
 
-    // app.listen(port, () => console.log(`Listening on port ${port}`))  //LOCAL CONFIGUE
- app.listen()  //SERVER CONFIGUE
+app.listen(port, () => console.log(`Listening on port ${port}`))  //LOCAL CONFIGUE
+//  app.listen()  //SERVER CONFIGUE
 
