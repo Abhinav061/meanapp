@@ -130,4 +130,7 @@ export class LoginComponent {
     });
   }
 
+  resetPassword(url: string){
+    window.open(url, "_blank");
+}
 }
