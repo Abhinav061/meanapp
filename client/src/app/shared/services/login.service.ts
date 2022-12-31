@@ -25,7 +25,7 @@ export class LoginService {
   }
 
   sendLoginMail(emailObj: any){
-    return this.http.post('/api/email/login',emailObj);
+    return this.http.post('/api/user/login-mail',emailObj);
   }
 
   storeToken(tokenRes: any){
