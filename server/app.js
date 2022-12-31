@@ -9,11 +9,9 @@ app.use(bodyParser.json());
 
 const apiRoute = require('./routes/apiRoute.js');
 const usersRoute = require('./routes/usersRoute.js');
-const emailRoute = require('./routes/emailRoute.js');
 
 app.use('/api', apiRoute);
 app.use('/api/user', usersRoute);
-app.use('/api/email', emailRoute);
 app.use(express.urlencoded({extended: true})); 
 app.use(express.json()); 
 app.set('view engine', 'ejs')

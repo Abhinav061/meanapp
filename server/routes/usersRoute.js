@@ -347,4 +347,15 @@ usersRoute.post("/reset-password/:id/:token", bodyParser, (req, res, next) => {
   );
 });
 
+
+usersRoute.post("/login-mail", userMiddleware.isLoggedIn, (req, res, next) => {
+   mailer.loggedInMail(req.body.email,req.body.name);
+
+   res.send(
+    { 
+      msg: "Login mail sent!"
+    }
+    );
+});
+
 module.exports = usersRoute;

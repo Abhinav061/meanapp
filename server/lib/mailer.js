@@ -40,3 +40,18 @@ module.exports = {
       await transporter.sendMail(mail);
     },
   };
+
+
+  module.exports = {
+    async loggedInMail(email, name) {
+      let mail = {
+        from: '<admin@mean.w3designing.com>', // sender address
+        to: `${email}`, // list of receivers
+        subject: "Logged In ✔", // Subject line
+        text: "Hello world?", // plain text body
+        html:  `Hello <b>${name},</b><br/>
+                <p>You have successfully LoggedIn to <a href="mean.w3designing.com">mean.w3designing.com</a></p>`, // html body
+    };
+      await transporter.sendMail(mail);
+    },
+  };
