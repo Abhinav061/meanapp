@@ -126,7 +126,7 @@ usersRoute.post('/login', (req, res, next) => {
             return res.status(200).send({
               msg: 'Logged in!',
               token,
-              user: result[0]
+              // user: result[0]
             });
           }
           return res.status(401).send({
@@ -139,8 +139,37 @@ usersRoute.post('/login', (req, res, next) => {
   // console.log('********Quer',query);
 });
 
+usersRoute.get('/get-user-details', userMiddleware.isLoggedIn, (req, res, next) => {
+
+  if (req.headers && req.headers.authorization) {
+    var authorization = req.headers.authorization.split(' ')[1], decoded;
+    try {
+      decoded = jwt.verify(authorization, 'SECRETKEY');
+    } catch (e) {
+      return res.status(401).send('unauthorized');
+    }
+    // res.send(decoded)
+    db.query(
+    `SELECT id, name, email, registered, last_login, role  FROM users WHERE id = ${db.escape(decoded.id)};`,
+    (err, result) => {
+      // user does not exists
+      if (err) {
+        throw err;
+        return res.status(400).send({
+          msg: err
+        });
+      }
+      return res.status(200).send({
+        user: result[0]
+      });
+
+    }
+  );
+  }
+});
+
 usersRoute.get('/secret-route', userMiddleware.isLoggedIn, (req, res, next) => {
-  console.log(req.userData);
+  //console.log(req.userData);
   res.send('This is the secret content. Only logged in users can see that!');
 });
 
