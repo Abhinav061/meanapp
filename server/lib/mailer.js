@@ -12,8 +12,7 @@ let transporter = nodemailer.createTransport({
   },
 });
 
-module.exports = {
-    async sendOptInMail(email, userID, token) {
+  async function sendOptInMail(email, userID, token) {
       let activationLink = `http://www.mean.w3designing.com/api/user/verify/${userID}/${token}`;
       let mail = {
         from: '<admin@mean.w3designing.com>',
@@ -23,12 +22,11 @@ module.exports = {
         html: `<p>To activate your account, <a href="${activationLink}">Click here</a></p>`,
       };
       await transporter.sendMail(mail);
-    },
-  };
+    }
 
 
-  module.exports = {
-    async resetPasswordMail(email, id, token) {
+  async function resetPasswordMail(email, id, token) {
+    console.log('Reset Password Link')
       let activationLink = `http://www.mean.w3designing.com/api/user/reset-password/${id}/${token}`;
       let mail = {
         from: '<admin@mean.w3designing.com>',
@@ -38,12 +36,10 @@ module.exports = {
         html: `<p>To reset password, <a href="${activationLink}">Click here</a></p>`,
       };
       await transporter.sendMail(mail);
-    },
-  };
+    }
 
 
-  module.exports = {
-    async loggedInMail(email, name) {
+    async function loggedInMail(email, name) {
       let mail = {
         from: '<admin@mean.w3designing.com>', // sender address
         to: `${email}`, // list of receivers
@@ -53,5 +49,10 @@ module.exports = {
                 <p>You have successfully LoggedIn to <a href="mean.w3designing.com">mean.w3designing.com</a></p>`, // html body
     };
       await transporter.sendMail(mail);
-    },
-  };
+    }
+
+
+
+  module.exports.sendOptInMail = sendOptInMail;
+  module.exports.resetPasswordMail = resetPasswordMail;
+  module.exports.loggedInMail = loggedInMail;

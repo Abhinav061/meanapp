@@ -6,7 +6,9 @@ const jwt = require("jsonwebtoken");
 const db = require('../connection/mysql.js');
 const userMiddleware = require("../middleware/userRoute.js");
 const uuid = require('uuid')
-const mailer = require("../lib/mailer.js")
+const loggedInMail = require("../lib/mailer.js")
+const sendOptInMail = require("../lib/mailer.js")
+const resetPasswordMail = require("../lib/mailer.js")
 bodyParser = require('body-parser').urlencoded({ extended: true });
 // routes/router.js
 
@@ -54,7 +56,7 @@ usersRoute.post('/sign-up', userMiddleware.validateRegister, (req, res, next) =>
                   });
                 }
 
-                await mailer.sendOptInMail(
+                await sendOptInMail.sendOptInMail(
                   email,
                   userID,
                   token
@@ -251,7 +253,7 @@ usersRoute.post('/forgot-password', bodyParser, (req, res, next) => {
       if (result[0]["email"] == `${email}`) {
         // const link = `http://localhost:5000/reset-password/${result[0]["id"]}/${token}`
 
-        await mailer.resetPasswordMail(result[0]["email"], result[0]["id"], result[0]["token"]);
+        await resetPasswordMail.resetPasswordMail(result[0]["email"], result[0]["id"], result[0]["token"]);
 
         // console.log('Link is', link);
         res.send('Password reset link has been sent to your email')
@@ -349,7 +351,7 @@ usersRoute.post("/reset-password/:id/:token", bodyParser, (req, res, next) => {
 
 
 usersRoute.post("/login-mail", userMiddleware.isLoggedIn, (req, res, next) => {
-   mailer.loggedInMail(req.body.email,req.body.name);
+  loggedInMail.loggedInMail(req.body.email,req.body.name);
 
    res.send(
     { 
